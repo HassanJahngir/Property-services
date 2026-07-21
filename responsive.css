@@ -1,0 +1,136 @@
+/* ==========================================================================
+   PROPERTY SERVICES — RESPONSIVE ENHANCEMENTS
+   Mobile-first: base styles in style.css target 320px+.
+   Below adds progressive enhancement only. No desktop-first rules.
+   ========================================================================== */
+
+/* -------------------- ~480px: small phones landscape / large phones -------------------- */
+@media (min-width: 480px) {
+  .hero__actions { flex-wrap: nowrap; }
+
+  .search-box {
+    grid-template-columns: 1fr 1fr;
+  }
+  .search-box__submit { grid-column: 1 / -1; }
+
+  .counters { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* -------------------- 640px: large phones / small tablets -------------------- */
+@media (min-width: 640px) {
+  .property-grid { grid-template-columns: repeat(2, 1fr); }
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .team-grid--agents { grid-template-columns: repeat(2, 1fr); }
+
+  .form-row { grid-template-columns: 1fr 1fr; }
+
+  .footer__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* -------------------- 768px: tablets -------------------- */
+@media (min-width: 768px) {
+  :root { --navbar-h: 5rem; }
+
+  .hero__title { font-size: var(--fs-3xl); }
+
+  .search-box {
+    grid-template-columns: 1.2fr 1fr 1fr auto;
+    align-items: end;
+  }
+  .search-box__submit { grid-column: auto; width: auto; padding-inline: 2rem; }
+
+  .about__grid { grid-template-columns: 1fr; }
+
+  .counters { grid-template-columns: repeat(3, 1fr); }
+
+  .contact__grid { grid-template-columns: 1fr; }
+
+  .cta-banner__actions { flex-wrap: nowrap; }
+}
+
+/* -------------------- 820px -------------------- */
+@media (min-width: 820px) {
+  .services-grid { grid-template-columns: repeat(3, 1fr); }
+  .team-grid--agents { grid-template-columns: repeat(3, 1fr); }
+  .team-card__split { flex-direction: column; }
+  .team-card__content { padding: clamp(1.5rem, 3vw, 2.5rem); flex: 1.1; }
+  .team-card__media { width: 100%;height: 420px;
+   }
+}
+
+/* -------------------- 992px: small desktops / large tablets landscape -------------------- */
+@media (min-width: 992px) {
+  .navbar__nav { display: block; }
+  .navbar__links {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 2vw, 2rem);
+  }
+  .navbar__links a {
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    color: #fff;
+    position: relative;
+    padding-block: 0.5rem;
+    transition: color var(--dur-fast) var(--ease);
+  }
+  .navbar__links a::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-gold);
+    transition: width var(--dur-fast) var(--ease);
+  }
+  .navbar__links a:hover { color: var(--color-gold); }
+  .navbar__links a:hover::after { width: 100%; }
+  .navbar__cta { display: inline-flex; }
+  .navbar__toggle { display: none; }
+
+  .property-grid { grid-template-columns: repeat(3, 1fr); }
+
+  .about__grid { grid-template-columns: 1fr 1.15fr; align-items: center; gap: var(--space-xl); }
+
+  .contact__grid { grid-template-columns: 1fr 1fr; align-items: start; gap: var(--space-xl); }
+
+  .footer__grid { grid-template-columns: 1.4fr 0.8fr 0.8fr 1fr; gap: var(--space-lg); }
+
+  .hero__scroll { display: flex; }
+}
+
+/* -------------------- 1200px: standard desktops -------------------- */
+@media (min-width: 1200px) {
+  .property-grid { grid-template-columns: repeat(4, 1fr); }
+
+  .about__media img { aspect-ratio: 4/4.6; }
+}
+
+/* -------------------- 1440px: large desktops -------------------- */
+@media (min-width: 1440px) {
+  .container { padding-inline: var(--container-pad); }
+  .hero__subtitle { max-width: 50ch; }
+}
+
+/* -------------------- 1920px+: extra-large / 4K displays -------------------- */
+@media (min-width: 1920px) {
+  :root {
+    --container-max: 1500px;
+  }
+  .hero__title { max-width: 20ch; }
+}
+
+/* -------------------- Fine pointer only: enable richer hovers -------------------- */
+@media (hover: hover) and (pointer: fine) {
+  .property-card__actions .btn--outline:hover { transform: translateY(-1px); }
+}
+
+/* -------------------- Short viewports: shrink hero so content isn't clipped -------------------- */
+@media (max-height: 700px) and (min-width: 768px) {
+  .hero { min-height: auto; padding-block: calc(var(--navbar-h) + var(--space-lg)) var(--space-lg); }
+}
+
+/* -------------------- Print -------------------- */
+@media print {
+  .navbar, .float-whatsapp, .back-to-top, .mobile-menu, .hero__scroll { display: none !important; }
+}
