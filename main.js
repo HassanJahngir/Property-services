@@ -317,3 +317,31 @@
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 })();
+
+const form = document.getElementById("contactForm");
+
+form.addEventListener("submit", function (e) {
+
+    e.preventDefault();
+
+    emailjs.sendForm(
+        "service_b78j6l7",
+        "template_5x9peob",
+        this
+    )
+
+    .then(function () {
+
+        alert("Message Sent Successfully!");
+
+        form.reset();
+
+    })
+
+    .catch(function (error) {
+
+        alert("Failed: " + JSON.stringify(error));
+
+    });
+
+});
