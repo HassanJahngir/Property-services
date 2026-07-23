@@ -32,27 +32,71 @@
   /* -------------------- Mobile menu -------------------- */
   const navToggle = document.getElementById('navToggle');
   const mobileMenu = document.getElementById('mobileMenu');
+  const navClose = document.getElementById('navClose');
+  let lockedScrollY = 0;
+
+  function lockBodyScroll() {
+    lockedScrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${lockedScrollY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.width = '100%';
+  }
+  function unlockBodyScroll() {
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.width = '';
+    window.scrollTo(0, lockedScrollY);
+  }
 
   function closeMobileMenu() {
     mobileMenu.classList.remove('is-open');
     navToggle.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
+    unlockBodyScroll();
   }
   function openMobileMenu() {
     mobileMenu.classList.add('is-open');
     navToggle.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
+    lockBodyScroll();
   }
   navToggle.addEventListener('click', () => {
     const isOpen = mobileMenu.classList.contains('is-open');
     isOpen ? closeMobileMenu() : openMobileMenu();
   });
+  if (navClose) navClose.addEventListener('click', closeMobileMenu);
   mobileMenu.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', closeMobileMenu);
   });
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeMobileMenu();
   });
+  // Safety net: if any scroll manages to reach the page while the menu is open, close it.
+  window.addEventListener('scroll', () => {
+    if (mobileMenu.classList.contains('is-open')) closeMobileMenu();
+  }, { passive: true });
+  window.addEventListener('touchmove', (e) => {
+    if (mobileMenu.classList.contains('is-open') && !mobileMenu.contains(e.target)) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  // Safety net: mobile menu is mobile-only. If the viewport grows into desktop
+  // range while it's open (e.g. rotating a device or resizing a window), close
+  // it and release the scroll lock so desktop is never affected.
+  const desktopQuery = window.matchMedia('(min-width: 992px)');
+  function handleViewportChange(e) {
+    if (e.matches && mobileMenu.classList.contains('is-open')) {
+      closeMobileMenu();
+    }
+  }
+  if (desktopQuery.addEventListener) {
+    desktopQuery.addEventListener('change', handleViewportChange);
+  } else {
+    desktopQuery.addListener(handleViewportChange);
+  }
 
   /* -------------------- Smooth scroll offset for sticky navbar -------------------- */
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {

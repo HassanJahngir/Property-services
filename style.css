@@ -414,6 +414,24 @@ textarea:focus-visible {
   padding: var(--space-xl) var(--container-pad);
 }
 .mobile-menu.is-open { transform: translateX(0); }
+.mobile-menu__close {
+  position: absolute;
+  top: max(1rem, env(safe-area-inset-top));
+  right: max(1rem, env(safe-area-inset-right));
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.mobile-menu__close:hover {
+  background: rgba(255,255,255,0.18);
+  transform: rotate(90deg);
+}
 .mobile-menu ul {
   display: flex;
   flex-direction: column;

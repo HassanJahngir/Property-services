@@ -91,6 +91,7 @@
   .navbar__links a:hover::after { width: 100%; }
   .navbar__cta { display: inline-flex; }
   .navbar__toggle { display: none; }
+  .mobile-menu { display: none !important; }
 
   .property-grid { grid-template-columns: repeat(3, 1fr); }
 
