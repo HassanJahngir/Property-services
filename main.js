@@ -73,10 +73,6 @@
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeMobileMenu();
   });
-  // Safety net: if any scroll manages to reach the page while the menu is open, close it.
-  window.addEventListener('scroll', () => {
-    if (mobileMenu.classList.contains('is-open')) closeMobileMenu();
-  }, { passive: true });
   window.addEventListener('touchmove', (e) => {
     if (mobileMenu.classList.contains('is-open') && !mobileMenu.contains(e.target)) {
       e.preventDefault();
