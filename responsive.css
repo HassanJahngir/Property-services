@@ -46,6 +46,10 @@
   .contact__grid { grid-template-columns: 1fr; }
 
   .cta-banner__actions { flex-wrap: nowrap; }
+
+  .testimonial-slider { padding-inline: 3.25rem; }
+  .testimonial-nav--prev { left: 0; }
+  .testimonial-nav--next { right: 0; }
 }
 
 /* -------------------- 820px -------------------- */
@@ -133,7 +137,7 @@
 /* -------------------- Print -------------------- */
 @media print {
   .navbar, .float-whatsapp, .back-to-top, .mobile-menu, .hero__scroll { display: none !important; }
-}
+} 
 
 /* ==========================
 MOBILE

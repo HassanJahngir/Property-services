@@ -148,6 +148,8 @@
   /* -------------------- Testimonial carousel (auto-sliding) -------------------- */
   const track = document.getElementById('testimonialTrack');
   const dotsWrap = document.getElementById('testimonialDots');
+  const prevBtn = document.getElementById('testimonialPrev');
+  const nextBtn = document.getElementById('testimonialNext');
   if (track) {
     const slides = Array.from(track.children);
     let index = 0;
@@ -195,6 +197,9 @@
       startAutoplay();
     }, { passive: true });
 
+    prevBtn.addEventListener('click', () => { goTo(index - 1); startAutoplay(); });
+    nextBtn.addEventListener('click', () => { goTo(index + 1); startAutoplay(); });
+
     goTo(0);
     startAutoplay();
   }
@@ -234,8 +239,8 @@
 
   function validateContactForm() {
     let valid = true;
-    const name = contactForm.elements.name;
-    const email = contactForm.elements.email;
+    const name = contactForm.elements.from_name;
+    const email = contactForm.elements.reply_to;
     const message = contactForm.elements.message;
 
     if (!name.value.trim()) {
@@ -266,11 +271,30 @@
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      if (validateContactForm()) {
-        formSuccess.hidden = false;
-        contactForm.reset();
-        setTimeout(() => { formSuccess.hidden = true; }, 6000);
+      if (!validateContactForm()) return;
+
+      const submitBtn = contactForm.querySelector('.form-submit');
+      const originalLabel = submitBtn ? submitBtn.textContent : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
       }
+
+      emailjs.sendForm('service_b78j6l7', 'template_5x9peob', contactForm)
+        .then(() => {
+          formSuccess.hidden = false;
+          contactForm.reset();
+          setTimeout(() => { formSuccess.hidden = true; }, 6000);
+        })
+        .catch((error) => {
+          alert('Sorry, your message could not be sent. Please try again or contact us directly. (' + (error && error.text ? error.text : 'unknown error') + ')');
+        })
+        .finally(() => {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalLabel;
+          }
+        });
     });
   }
 
@@ -317,31 +341,3 @@
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 })();
-
-const form = document.getElementById("contactForm");
-
-form.addEventListener("submit", function (e) {
-
-    e.preventDefault();
-
-    emailjs.sendForm(
-        "service_b78j6l7",
-        "template_5x9peob",
-        this
-    )
-
-    .then(function () {
-
-        alert("Message Sent Successfully!");
-
-        form.reset();
-
-    })
-
-    .catch(function (error) {
-
-        alert("Failed: " + JSON.stringify(error));
-
-    });
-
-});
